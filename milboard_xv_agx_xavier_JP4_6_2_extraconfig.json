@@ -1,0 +1,247 @@
+{
+  "information": {
+    "release": {
+      "releaseVersion": "4.6.2",
+      "releaseEdition": "",
+      "releaseRevision": 0
+    }
+  },
+  "sw": {
+    "NV_L4T_FILE_SYSTEM_AND_OS_T194_COMP": {
+      "name": "File System, OS and Forecr AGX Xavier Milboard XV Install",
+      "isVisible": true,
+      "isDetectableInstall": false,
+      "versions": [
+        {
+          "operatingSystems": [
+            "ubuntu1604",
+            "ubuntu1804"
+          ],
+          "targetIds": [
+            "JETSON_AGX_XAVIER_TARGETS"
+          ],
+          "prerequisites": [],
+          "downloadFiles": [
+            {
+              "url": "T194/Tegra_Linux_Sample-Root-Filesystem_R32.7.2_aarch64.tbz2",
+              "fileName": "Tegra_Linux_Sample-Root-Filesystem_R32.7.2_aarch64.tbz2",
+              "size": 1520544746,
+              "checksum": "63865585a6f10e119ff32a34b2c19cef",
+              "checksumType": "md5",
+              "verifyChecksum": "yes",
+              "installParameters": {
+                "additionalParameters": {
+                  "installDir": "{{TARGET_ROOT}}/{{BUNDLE_TITLE}}_{{BOARD_ID}}/Linux_for_Tegra/rootfs/",
+                  "installCommands": [
+                    {
+                      "execBash": [
+                        "sudo tar xpf {{FILE_PATH}}",
+                        "cd ..",
+                        "sudo ./tools/l4t_flash_prerequisites.sh",
+                        "sudo ./apply_binaries.sh",
+                        "sudo mkdir -p rootfs/opt/nvidia/deb_repos",
+                        "wget https://github.com/forecr/milboard_xv_agx_xavier_bsp/raw/master/milboard_xv_agx_xavier_JP4_6_1_bsp.zip 2>downloadstatus.txt",
+                        "unzip milboard_xv_agx_xavier_JP4_6_1_bsp.zip",
+                        "cd ./milboard_xv_agx_xavier_JP4_6_1_bsp",
+                        "cp Image ../kernel/",
+                        "cp tegra194-p2888-0001-p2822-0000.dtb ../kernel/dtb/",
+                        "cp jetpack462-cboot/cboot_t194.bin ../bootloader/",
+                        "cd ..",
+                        "sudo ./apply_binaries.sh"
+                      ]
+                    }
+                  ]
+                },
+                "installEngineQueue": "sequential",
+                "installType": "cmd"
+              }
+            },
+            {
+              "url": "T194/secureboot_R32.7.2_aarch64.tbz2",
+              "fileName": "secureboot_R32.7.2_aarch64.tbz2",
+              "size": 1348251,
+              "checksum": "c1970694e4b09eb0761670866b3c8bfe",
+              "checksumType": "md5",
+              "verifyChecksum": "yes",
+              "installParameters": {
+                "additionalParameters": {
+                  "installDir": "{{TARGET_ROOT}}/{{BUNDLE_TITLE}}_{{BOARD_ID}}/",
+                  "installCommands": [
+                    {
+                      "execBash": [
+                        "tar xjvf {{FILE_PATH}}"
+                      ]
+                    }
+                  ]
+                },
+                "installEngineQueue": "default",
+                "installType": "cmd"
+              }
+            }
+          ],
+          "version": "32.7",
+          "dependencies": [
+            {
+              "type": "optional",
+              "id": "NV_L4T_DRIVERS_T194_COMP",
+              "ver": "32.7",
+              "operator": "=="
+            }
+          ],
+          "installSizeMB": 5667.65
+        }
+      ],
+      "licenseId": "NV_JETPACK_OS_EULA",
+      "id": "NV_L4T_FILE_SYSTEM_AND_OS_FORECR_BSP_PACKAGE_COMP",
+      "isPartiallyDetectableInstall": false,
+      "installPath": "{{TARGET_ROOT}}/{{BUNDLE_TITLE}}_{{BOARD_ID}}/"
+    },
+    "NV_L4T_FLASH_XAVIER_WITH_OS_IMAGE_COMP": {
+      "name": "Forecr Flash Jetson AGX Xavier",
+      "isVisible": true,
+      "estimateInstallDurationSeconds": 500,
+      "versions": [
+        {
+          "operatingSystems": [
+            "ubuntu1604",
+            "ubuntu1804"
+          ],
+          "installSizeMB": 9520,
+          "targetIds": [
+            "JETSON_AGX_XAVIER_TARGETS"
+          ],
+          "prerequisites": [],
+          "downloadFiles": [],
+          "installParameters": {
+            "installDir": "{{TARGET_ROOT}}/{{BUNDLE_TITLE}}_{{BOARD_ID}}/Linux_for_Tegra",
+            "installEngineQueue": "parallel",
+            "installCommands": [
+              {
+                "execBash": [
+                  "set -e",
+                  "unset LC_ALL",
+                  "echo ssudo ./flash.sh jetson-xavier mmcblk0p1",
+                  "sudo ./flash.sh jetson-xavier mmcblk0p1",
+                  "sleep 20"
+                ]
+              }
+            ]
+          },
+          "version": "32.7",
+          "dependencies": [
+            {
+              "type": "optional",
+              "id": "NV_L4T_FILE_SYSTEM_AND_OS_T194_COMP",
+              "ver": "32.7",
+              "operator": "=="
+            }
+          ]
+        }
+      ],
+      "licenseId": "NV_JETPACK_OS_EULA",
+      "id": "NV_L4T_FLASH_XAVIER_WITH_OS_IMAGE_COMP",
+      "isDetectableInstall": false,
+      "isPartiallyDetectableInstall": false
+    }
+  },
+  "hw": {
+    "JETSON_AGX_XAVIER_IND": {
+      "name": "Jetson AGX Xavier Industrial",
+      "products": [
+        "Jetson"
+      ],
+      "deviceIdentificationDetails": {
+        "moduleNames": [
+          "P2888-0008 [Industrial]"
+        ],
+        "moduleIds": [
+          "2888-0008"
+        ],
+        "moduleDescription": "P2888-0008 module",
+        "tegraRecoveryModeCodes": [
+          "0955:7819",
+          "0955:7919"
+        ],
+        "carrierIds": [
+          "2822-0000"
+        ],
+        "carrierDescription": "P2822-0000 carrier board"
+      },
+      "imagePath": "https://www.forecr.io/cdn/shop/articles/jetpack-51-installation-for-milboard-xv-647339_1024x.jpg",
+      "storages": [
+        {
+          "id": "default",
+          "displayName": "EMMC (default)",
+          "flashOptions": ""
+        },
+        {
+          "id": "nvme",
+          "displayName": "NVMe",
+          "flashOptions": "--storage nvme0n1p1"
+        },
+        {
+          "id": "usb",
+          "displayName": "USB",
+          "flashOptions": "--storage sda1"
+        },
+        {
+          "id": "custom",
+          "displayName": "Custom",
+          "flashOptions": "--custom ./nvautoflash.sh"
+        }
+      ],
+      "id": "JETSON_AGX_XAVIER_IND"
+    },
+    "JETSON_AGX_XAVIER": {
+      "name": "Jetson AGX Xavier",
+      "products": [
+        "Jetson",
+        "Holoscan"
+      ],
+      "deviceIdentificationDetails": {
+        "moduleNames": [
+          "P2888-0001",
+          "P2888-0004 [32GB]",
+          "P2888-0005 [64GB]"
+        ],
+        "moduleIds": [
+          "2888-0001",
+          "2888-0004",
+          "2888-0005"
+        ],
+        "moduleDescription": "P2888-0001 or P2888-0004 or P2888-0005 module",
+        "tegraRecoveryModeCodes": [
+          "0955:7019"
+        ],
+        "carrierIds": [
+          "2822-0000"
+        ],
+        "carrierDescription": "P2822-0000 carrier board"
+      },
+      "imagePath": "https://www.forecr.io/cdn/shop/articles/jetpack-51-installation-for-milboard-xv-647339_1024x.jpg",
+      "storages": [
+        {
+          "id": "default",
+          "displayName": "EMMC (default)",
+          "flashOptions": ""
+        },
+        {
+          "id": "nvme",
+          "displayName": "NVMe",
+          "flashOptions": "--storage nvme0n1p1"
+        },
+        {
+          "id": "usb",
+          "displayName": "USB",
+          "flashOptions": "--storage sda1"
+        },
+        {
+          "id": "custom",
+          "displayName": "Custom",
+          "flashOptions": "--custom ./nvautoflash.sh"
+        }
+      ],
+      "id": "JETSON_AGX_XAVIER"
+    }
+  }
+}
